@@ -1,0 +1,35 @@
+# Port
+server:
+  port: 8888
+
+spring:
+  #  main:
+  #    # Отключение циклических зависимостей (крайне не рекомендуется)
+  #    allow-circular-references: true
+
+  # PostgreSQL configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/boostme
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: Sa2022@@!!
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+    # Show database query message in the console
+    show-sql: true
+
+    # Hibernate configuration
+    hibernate:
+      ddl-auto: update
+
+jwt:
+  secret: 9j15u3eo9ig7snm34ho1le0w3gk38flq2
+  lifetime: 60m
+
+admin:
+  username: kosh
+  password: kosh
