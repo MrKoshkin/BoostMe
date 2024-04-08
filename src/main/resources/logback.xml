@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property name="LOG_ROOT" value="/var/log/kosh.io/BoostMe/app.log"/>
+
+    <!-- Уровень логирования -->
+    <root level="DEBUG">
+        <appender-ref ref="FILE" />
+    </root>
+
+    <!-- Настройки для логирования в файл -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_ROOT}</file> <!-- Путь к файлу логов -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>/var/log/kosh.io/currency-bot/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>5MB</maxFileSize> <!-- Максимальный размер одного файла (10 мб) -->
+            <maxHistory>30</maxHistory> <!-- Количество архивированных файлов -->
+            <totalSizeCap>100MB</totalSizeCap> <!-- Максимальный общий размер всех файлов (100 мб) -->
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date %-5level [%thread] %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+</configuration>
