@@ -20,14 +20,14 @@ public class User {
     @Column(columnDefinition = "VARCHAR(100)", nullable = false)
     private String password;
 
-    @Column(columnDefinition = "VARCHAR(255)", unique = true) //DEFAULT 'email'
+    @Column(columnDefinition = "VARCHAR(255)", unique = true)
     private String email;
 
     @ElementCollection
     @Enumerated(EnumType.STRING)
     private Set<UserGroup> userGroups = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user") //fetch = FetchType.EAGER
     private Set<UserRole> userRoles = new HashSet<>();
 
     @Column(columnDefinition = "VARCHAR(50)")
