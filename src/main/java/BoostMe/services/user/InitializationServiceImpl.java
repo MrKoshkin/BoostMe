@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @Service
@@ -37,9 +38,9 @@ public class InitializationServiceImpl implements InitializationService{
     @PostConstruct
     @Override
     public void initializeApp() {
-        initializeAdminUser(adminUsername, adminPassword);
         createRoleIfNotExists(Role.ADMIN);
         createRoleIfNotExists(Role.USER);
+        initializeAdminUser(adminUsername, adminPassword);
     }
 
     // Инициализация админа
@@ -49,7 +50,7 @@ public class InitializationServiceImpl implements InitializationService{
             adminUser.setUsername(username);
             String encodedPassword = passwordEncoder.encode(password);
             adminUser.setPassword(encodedPassword);
-            adminUser.setRole(Role.ADMIN);
+            adminUser.setRole(roleRepository.findByName(Role.ADMIN).orElseThrow(() -> new NoSuchElementException("Role ADMIN not found")));
             adminUser.setHidden(false);
             adminUser.setTimestamp(System.currentTimeMillis());
             adminUser.getUserGroups().addAll(Arrays.asList(UserGroup.values()));

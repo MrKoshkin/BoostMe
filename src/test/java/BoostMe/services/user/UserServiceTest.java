@@ -1,6 +1,7 @@
 package BoostMe.services.user;
 
 import BoostMe.api.v1.rest.dto.RegistrationUserDto;
+import BoostMe.entities.user.Role;
 import BoostMe.entities.user.User;
 import BoostMe.repositories.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,6 +42,9 @@ class UserServiceTest {
         User user = new User();
         user.setUsername("testUser");
         user.setPassword("testPassword");
+        Role role = new Role();     // Создание мокированной роли и привязка ее к пользователю
+        role.setName("ROLE_USER");
+        user.setRole(role);
         when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
 
         assertEquals("testUser", userService.loadUserByUsername("testUser").getUsername());

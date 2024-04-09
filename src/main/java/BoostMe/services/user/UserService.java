@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -44,7 +45,7 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList())
+                Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getName()))
         );
     }
 
@@ -69,14 +70,15 @@ public class UserService implements UserDetailsService {
         user.setUsername(registrationUserDto.getUsername());
         user.setEmail(registrationUserDto.getEmail());
         user.setPassword(passwordEncoder.encode(registrationUserDto.getPassword()));
-        user.addRole(roleService.getUserRole());
+        user.setRole(roleService.getUserRole());
+        user.setTimestamp(System.currentTimeMillis());
 
         try {
             return userRepository.save(user);
-        } catch (DataIntegrityViolationException ex) {
-            String errorMessage = "Ошибка сохранения пользователя: " + ex.getMessage();
+        } catch (DataIntegrityViolationException e) {
+            String errorMessage = "Ошибка сохранения пользователя: " + e.getMessage();
             log.error(errorMessage);
-            throw new IllegalArgumentException(errorMessage, ex);
+            throw new IllegalArgumentException(errorMessage, e);
         }
     }
 

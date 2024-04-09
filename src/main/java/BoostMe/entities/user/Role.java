@@ -20,30 +20,4 @@ public class Role {
     @Column(columnDefinition = "VARCHAR(255)", unique = true, nullable = false)
     private String name;
 
-    @ElementCollection
-    @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "role_user_group", joinColumns = @JoinColumn(name = "role_id"))
-    @Column(name = "user_group")
-    private Set<UserGroup> userGroups = new HashSet<>();
-
-    @OneToMany(mappedBy = "role")
-    private Set<UserRole> userRoles = new HashSet<>();
-
-    public void addUserGroup(UserGroup userGroup) {
-        userGroups.add(userGroup);
-    }
-
-    public void removeUserGroup(UserGroup userGroup) {
-        userGroups.remove(userGroup);
-    }
-
-    public void addUserRole(UserRole userRole) {
-        userRoles.add(userRole);
-        userRole.setRole(this);
-    }
-
-    public void removeUserRole(UserRole userRole) {
-        userRoles.remove(userRole);
-        userRole.setRole(null);
-    }
 }
