@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
 
 @Slf4j
 @Service
-public class InitializationServiceImpl implements InitializationService{
+public class InitializationServiceImpl implements InitializationService {
 
     @Value("${admin.username}")
     private String adminUsername;

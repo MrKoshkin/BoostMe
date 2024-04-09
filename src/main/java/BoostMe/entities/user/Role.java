@@ -3,9 +3,6 @@ package BoostMe.entities.user;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Entity
 @Data
 public class Role {
