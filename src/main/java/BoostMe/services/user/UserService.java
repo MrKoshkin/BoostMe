@@ -1,8 +1,11 @@
 package BoostMe.services.user;
 
+import BoostMe.api.rest.RegistrationUserDto;
 import BoostMe.entities.user.User;
 import BoostMe.repositories.user.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
@@ -44,6 +48,36 @@ public class UserService implements UserDetailsService {
         );
     }
 
+    @Transactional
+    public User createNewUser(RegistrationUserDto registrationUserDto) {
+        // Проверка уникальности username
+        if (userRepository.existsByUsername(registrationUserDto.getUsername())) {
+            String message = "Имя пользователя '" + registrationUserDto.getUsername() + "' уже занято";
+            log.warn(message);
+            throw new IllegalArgumentException(message);
+        }
 
+        // Проверка уникальности email
+        if (userRepository.existsByEmail(registrationUserDto.getEmail())) {
+            String message = "Электронная почта '" + registrationUserDto.getEmail() + "' уже используется";
+            log.warn(message);
+            throw new IllegalArgumentException(message);
+        }
+
+        // Создание нового пользователя
+        User user = new User();
+        user.setUsername(registrationUserDto.getUsername());
+        user.setEmail(registrationUserDto.getEmail());
+        user.setPassword(passwordEncoder.encode(registrationUserDto.getPassword()));
+        user.addRole(roleService.getUserRole());
+
+        try {
+            return userRepository.save(user);
+        } catch (DataIntegrityViolationException ex) {
+            String errorMessage = "Ошибка сохранения пользователя: " + ex.getMessage();
+            log.error(errorMessage);
+            throw new IllegalArgumentException(errorMessage, ex);
+        }
+    }
 
 }

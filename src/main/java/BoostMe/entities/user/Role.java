@@ -17,7 +17,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "VARCHAR(255) default ''", nullable = false)
+    @Column(columnDefinition = "VARCHAR(255)", unique = true, nullable = false)
     private String name;
 
     @ElementCollection
