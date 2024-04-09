@@ -1,6 +1,6 @@
 package BoostMe.services.user;
 
-import BoostMe.api.v1.rest.dto.RegistrationUserDto;
+import BoostMe.dtos.RegistrationUserDto;
 import BoostMe.entities.user.Role;
 import BoostMe.entities.user.User;
 import BoostMe.repositories.user.UserRepository;
@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

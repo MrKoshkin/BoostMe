@@ -1,4 +1,4 @@
-package BoostMe.api.v1.rest.dto;
+package BoostMe.dtos;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

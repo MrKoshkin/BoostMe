@@ -1,6 +1,6 @@
 package BoostMe.services.user;
 
-import BoostMe.api.v1.rest.dto.RegistrationUserDto;
+import BoostMe.dtos.RegistrationUserDto;
 import BoostMe.entities.user.User;
 import BoostMe.repositories.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
