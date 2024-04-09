@@ -1,7 +1,6 @@
 package BoostMe.services.user;
 
-import BoostMe.api.rest.RegistrationUserDto;
-import BoostMe.entities.user.Role;
+import BoostMe.api.v1.rest.dto.RegistrationUserDto;
 import BoostMe.entities.user.User;
 import BoostMe.repositories.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 class UserServiceTest {
@@ -60,8 +60,7 @@ class UserServiceTest {
         registrationUserDto.setEmail("test@example.com");
         registrationUserDto.setPassword("testPassword");
 
-        when(userRepository.existsByUsername("testUser")).thenReturn(false);
-        when(userRepository.existsByEmail("test@example.com")).thenReturn(false);
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         User createdUser = userService.createNewUser(registrationUserDto);
 

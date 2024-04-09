@@ -1,4 +1,4 @@
-package BoostMe.api.rest;
+package BoostMe.api.v1.rest.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package BoostMe.services.user;
 
-import BoostMe.api.rest.RegistrationUserDto;
+import BoostMe.api.v1.rest.dto.RegistrationUserDto;
 import BoostMe.entities.user.User;
 import BoostMe.repositories.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
