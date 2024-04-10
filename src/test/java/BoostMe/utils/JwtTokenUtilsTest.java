@@ -1,4 +1,4 @@
-package BoostMe;
+package BoostMe.utils;
 
 import BoostMe.utils.JwtTokenUtils;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-public class TestJwt {
+public class JwtTokenUtilsTest {
 
     @Autowired
     private JwtTokenUtils jwtTokenUtils;
@@ -27,10 +27,6 @@ public class TestJwt {
                 "kosh",
                 Collections.singletonList(new SimpleGrantedAuthority("USER"))
         );
-
-        // Создаем объект JwtTokenUtils для тестирования
-        JwtTokenUtils jwtTokenUtils = new JwtTokenUtils();
-
 
         // Генерируем токен
         String token = jwtTokenUtils.generateToken(userDetails);
