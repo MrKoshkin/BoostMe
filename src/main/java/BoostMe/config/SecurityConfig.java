@@ -15,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -24,14 +25,13 @@ public class SecurityConfig {
 
     private UserService userService;
     private PasswordEncoder passwordEncoder;
+    private JwtRequestFilter jwtRequestFilter;
 
-//    private JwtRequestFilter jwtRequestFilter;
-
-
-
-    public SecurityConfig(UserService userService, PasswordEncoder passwordEncoder) {
+    @Autowired
+    public SecurityConfig(UserService userService, PasswordEncoder passwordEncoder, JwtRequestFilter jwtRequestFilter) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.jwtRequestFilter = jwtRequestFilter;
     }
 
     @Bean
@@ -39,19 +39,15 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorizeRequests-> authorizeRequests
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
 //                        .requestMatchers("/secured").authenticated()
 //                        .requestMatchers("/info").authenticated()
 //                        .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().permitAll())
                 .sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .exceptionHandling((exceptionHandling) -> exceptionHandling.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
+                .exceptionHandling((exceptionHandling) -> exceptionHandling.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
-    }
-
-    @Autowired
-    public SecurityConfig(UserService userService) {
-        this.userService = userService;
     }
 
 
