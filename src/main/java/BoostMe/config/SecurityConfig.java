@@ -6,13 +6,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -25,14 +25,14 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
 
 
-    private UserService userService;
-    private PasswordEncoder passwordEncoder;
-    private JwtRequestFilter jwtRequestFilter;
+    private final UserService userService;
+    private final PasswordEncoderConfiguration passwordEncoderConfiguration;
+    private final JwtRequestFilter jwtRequestFilter;
 
     @Autowired
-    public SecurityConfig(UserService userService, PasswordEncoder passwordEncoder, JwtRequestFilter jwtRequestFilter) {
+    public SecurityConfig(UserService userService, PasswordEncoderConfiguration passwordEncoderConfiguration, JwtRequestFilter jwtRequestFilter) {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
+        this.passwordEncoderConfiguration = passwordEncoderConfiguration;
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)     // Отключаем CSRF защиту для api
                 .cors(withDefaults())
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/testpage").authenticated()
+                        .requestMatchers("/testpage").permitAll()
 //                        .requestMatchers("/secured").authenticated()
 //                        .requestMatchers("/info").authenticated()
 //                        .requestMatchers("/admin").hasRole("ADMIN")
@@ -55,6 +55,13 @@ public class SecurityConfig {
         return http.build();
     }
 
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoderConfiguration.passwordEncoder());
+        daoAuthenticationProvider.setUserDetailsService(userService);
+        return daoAuthenticationProvider;
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
