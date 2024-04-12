@@ -1,7 +1,7 @@
 package BoostMe.services.user;
 
-import BoostMe.api.rest.v1.JwtRequest;
-import BoostMe.api.rest.v1.JwtResponse;
+import BoostMe.api.JwtRequest;
+import BoostMe.api.JwtResponse;
 import BoostMe.dtos.RegistrationUserDto;
 import BoostMe.dtos.UserDto;
 import BoostMe.entities.user.User;

@@ -39,13 +39,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)     // Отключаем CSRF защиту для api
+                .csrf(AbstractHttpConfigurer::disable)     // Отключаем CSRF
                 .cors(withDefaults())
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/testpage").permitAll()
-//                        .requestMatchers("/secured").authenticated()
-//                        .requestMatchers("/info").authenticated()
-//                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll())
                 .sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling((exceptionHandling) -> exceptionHandling.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))

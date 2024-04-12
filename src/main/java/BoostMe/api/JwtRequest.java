@@ -1,4 +1,4 @@
-package BoostMe.api.rest.v1;
+package BoostMe.api;
 
 import lombok.Data;
 
