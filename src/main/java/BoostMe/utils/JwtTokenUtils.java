@@ -29,8 +29,6 @@ public class JwtTokenUtils {
                 .map(GrantedAuthority::getAuthority)
                 .toList();
         claims.put("roles", rolesList);
-        // Добавляем все необходимые поля в payload токена
-        // ToDo
 
         Date issuedDate = new Date();
         Date expiredDate = new Date(issuedDate.getTime() + jwtLifetime.toMillis());
