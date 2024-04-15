@@ -1,11 +1,12 @@
 package BoostMe.services.user;
 
-import BoostMe.api.rest.v1.JwtRequest;
-import BoostMe.api.rest.v1.JwtResponse;
+
+import BoostMe.api.JwtRequest;
+import BoostMe.api.JwtResponse;
 import BoostMe.dtos.RegistrationUserDto;
 import BoostMe.dtos.UserDto;
 import BoostMe.entities.user.User;
-import BoostMe.exception.AppError;
+import BoostMe.exceptions.AppError;
 import BoostMe.utils.JwtTokenUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Slf4j
 @Service
-public class AuthServiceImpl implements AuthService{
+public class AuthServiceImpl implements AuthService {
     private final UserService userService;
     private final JwtTokenUtils jwtTokenUtils;
     private final AuthenticationManager authenticationManager;

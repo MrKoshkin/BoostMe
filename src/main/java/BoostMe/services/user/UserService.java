@@ -81,4 +81,14 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    @Transactional
+    public void deleteUserByUsername(String username) {
+        if (userRepository.existsByUsername(username)) {
+            userRepository.deleteByUsername(username);
+            log.info("Пользователь '{}' успешно удален", username);
+        } else {
+            log.warn("Пользователь '{}' не найден, удаление не выполнено", username);
+        }
+    }
+
 }

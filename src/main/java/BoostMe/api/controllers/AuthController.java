@@ -1,5 +1,6 @@
-package BoostMe.api.rest.v1;
+package BoostMe.api.controllers;
 
+import BoostMe.api.JwtRequest;
 import BoostMe.dtos.RegistrationUserDto;
 import BoostMe.services.user.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -7,13 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+//@RequestMapping("/api/v1")
 public class AuthController {
     private final AuthService authService;
 
